@@ -4,7 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include <ifstream>
+#include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -77,7 +77,7 @@ class Shader{
       std::string fCode = LoadFile(fragPath);
       unsigned int vert = CompileShader(vCode, true);
       unsigned int frag = CompileShader(fCode, false);
-      CreateShaderProgram();
+      CreateShaderProgram(vert,frag);
     }
     ~Shader(){
       glDeleteProgram(mId);
@@ -119,7 +119,7 @@ bool IsKeyReleased(GLenum key){
 }
 
 void ProcessInput(){
-  if(IsKeyPressed(GLFW_ESCAPE)){
+  if(IsKeyPressed(GLFW_KEY_ESCAPE)){
     glfwSetWindowShouldClose(window,true);
   }
 }
@@ -179,7 +179,7 @@ int main(void){
 
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-  while(glfwWindowShouldClose(window)){
+  while(!glfwWindowShouldClose(window)){
     glfwPollEvents();
 
     ProcessInput();
@@ -192,7 +192,7 @@ int main(void){
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::scale(model,glm::vec3((float)width,(float)height,1.0f));
     glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::perspective(0.0f,(float)width,0.0f,(float)height);
+    glm::mat4 projection = glm::ortho(0.0f,(float)width,0.0f,(float)height);
     
     glm::vec2 uRes = {width,height};
 
@@ -201,18 +201,18 @@ int main(void){
     shader.SetValue("view",view);
     shader.SetValue("projection",projection);
     shader.SetValue("uRes",uRes);
+    shader.SetValue("uTime",(float)glfwGetTime());
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 
     glfwSwapBuffers(window);
   }
+  glDeleteVertexArrays(1,&vao);
+  glDeleteBuffers(1,&vbo);
 
   glfwDestroyWindow(window);
   glfwTerminate();
-
-  glDeleteVertexArrays(1,&vao);
-  glDeleteBuffers(1,&vbo);
 
   return 0;
 }
