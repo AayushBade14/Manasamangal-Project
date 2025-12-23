@@ -40,14 +40,14 @@ struct MError{
   bool m_bSuccess;
   std::string m_sMsg;
   
-  static MError Ok()
+  static MError Ok(const std::string& msg)
   {
-    return {true, ""};
+    return {true, msg};
   }
 
-  static MError Fail()
+  static MError Fail(const std::string& msg)
   {
-    return {m_bSuccess, m_sMsg};
+    return {false, msg};
   }
 };
 
