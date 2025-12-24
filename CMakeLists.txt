@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(glfw)
 # ENGINE-TARGET
 #---------------------------------------
 
-add_executable(
+add_executable( manasa
 main.cpp
 
   core/Application.cpp

@@ -16,13 +16,14 @@ class Application
 {
 public:
 
-  Application(IWindow* window);
+  Application(IWindow* window, IRenderer* renderer);
   
   void Run();
 
 private:
 
   IWindow* m_pWindow;
+  IRenderer* m_pRenderer;
 };
 
 #endif

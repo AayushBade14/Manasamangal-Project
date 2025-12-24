@@ -1,14 +1,15 @@
 #include "./GLFWWindow.h"
 #include <GLFW/glfw3.h>
 #include <cstdio>
+#include <cstdlib>
 
 GLFWWindow::GLFWWindow(int width, int height, const char* title) : m_iWidth(width),
-                                                                   m_iHeight(height),
+                                                                   m_iHeight(height)
 {
   if(!glfwInit())
   {
     printf("Failed to initalize GLFW!\n");
-    std::exit(1);
+    exit(1);
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -20,7 +21,7 @@ GLFWWindow::GLFWWindow(int width, int height, const char* title) : m_iWidth(widt
   {
     printf("Failed to create GLFW window! \n");
     glfwTerminate();
-    std::exit(1);
+    exit(1);
   }
 
   glfwMakeContextCurrent(m_pWindow);
